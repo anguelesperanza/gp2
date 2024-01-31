@@ -147,10 +147,10 @@ app.get("/Starwars/planets/:id", (req, res) => {
 app.get("/Starwars/films/:id/characters", (req, res) => {
   dao.call(
     "findAllCharactersInFilm",
-    { film_id: parseInt(req.params.id) },
+    { film_id: parseInt(1) },
     (result) => {
       if (result !== undefined) {
-        res.send(result);
+        res.send(result.resultsInCF);
         // res.send(result.results[0]);
       } else {
         res.statusCode = 404;

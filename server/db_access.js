@@ -103,17 +103,17 @@ module.exports.call = async function call(
       callback({ results });
       break;
 
-    case "findallcharactersinfilm":
-      console.log(parameters);
-      console.log(parameters.film_id);
-      const resultsInCF = await collection.find({ id: parameters.film_id });
-      //   console.log(resultsInCF);
-      callback({ resultsInCF });
-      break;
-
     case "find":
       const result = await collection.findOne({ id: parameters.id });
       callback({ result });
+      break;
+
+    case "findallcharactersinfilm":
+      console.log(parameters);
+      console.log(parameters.film_id);
+      const resultsInCF = await collection.find({ id: parameters.id });
+      //   console.log(resultsInCF);
+      callback({ resultsInCF });
       break;
 
     // findbook -> Finds book. Will become findcharacter
