@@ -37,7 +37,12 @@ const characterCollection = "characters";
 //  This is the call function
 // It takes an operation, parameters and a callback function
 // Not too sure what this does though.
-module.exports.call = async function call(operation, parameters, callback) {
+module.exports.call = async function call(
+  operation,
+  parameters,
+  callback,
+  collection_name
+) {
   // establishes a connection with the client and the database
   // await keyword forces program to halt until a response has been recvd
   // Don't want to do DB stuff when no DB has been connected too
@@ -50,7 +55,7 @@ module.exports.call = async function call(operation, parameters, callback) {
   // --> Best name? Not sure. But it is a name nonetheless
   // Set as a const so we do not accidently change the variable data
   // to something else.
-  const collection = db.collection(characterCollection);
+  const collection = db.collection(collection_name);
 
   // Executes Opertions --> Not sure what that means though
   // If I had to guess, the case statements as shown below
@@ -67,30 +72,42 @@ module.exports.call = async function call(operation, parameters, callback) {
     // The following two cases I will add here but will change as needed
     // findallbooks -> Finds all the books. Will become findallcharacters
     // Odd how case doesn't need {} --> You think it would but I guess not
-    case "findallcharacters":
-      // gets every row (all info) in the characters collections
-      // Converts information to an array and stores in 'characters'
-      // Remember: collection was assighed to the character collection
-      // earlir in the code
-      const characters = await collection.find({}).toArray();
+    // //case "findallcharacters":
+    // gets every row (all info) in the characters collections
+    // Converts information to an array and stores in 'characters'
+    // Remember: collection was assighed to the character collection
+    // earlir in the code
+    // // const characters = await collection.find({}).toArray();
 
-      // printing out the characters collection to see if this was received
-      console.log(characters);
+    // printing out the characters collection to see if this was received
+    // //  console.log(characters);
+    // //console.log("Made it to this line");
+    // This is a callback function.
+    // Essentially, we received the information from the database
+    // are are passing it back through to the function that called it
+    // This was called in index.js
+    // app.get("/Starwars/characters") ====> Call block starts here
+    // //callback({ characters });
+    // //break;
+
+    case "findall":
+      const results = await collection.find({}).toArray();
+      //   characters collection to see if this was received
+      //   console.log(characters);
       console.log("Made it to this line");
       // This is a callback function.
       // Essentially, we received the information from the database
       // are are passing it back through to the function that called it
       // This was called in index.js
       // app.get("/Starwars/characters") ====> Call block starts here
-      callback({ characters });
+      callback({ results });
+      break;
+
+    case "find":
+      const result = await collection.findOne({ id: parameters.id });
+      callback({ result });
+      break;
 
     // findbook -> Finds book. Will become findcharacter
   }
-};
-
-// This will make it so they cases in the switch stment
-// below can be used as function
-// AKA Wizard Magic at work here
-module.exports.findAllCharacters = function () {
-  return swdb;
 };

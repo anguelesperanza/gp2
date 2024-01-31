@@ -24,16 +24,118 @@ app.use(express.json());
 // req -> Request | res -> Respose
 // We are sending a request to to the server
 // using dao.call to run through the switch statements to get what we're looking for.
+// Added a new paramenter that tells the program what database to use.
 app.get("/Starwars/characters", (req, res) => {
-  dao.call("findAllCharacters", {}, (result) => {
-    if (result !== undefined) {
-      res.send(result);
-    } else {
-      res.statusCode = 404;
-      res.end();
-    }
-  });
+  dao.call(
+    "findAll",
+    {},
+    (result) => {
+      if (result !== undefined) {
+        res.send(result);
+      } else {
+        res.statusCode = 404;
+        res.end();
+      }
+    },
+    "characters"
+  );
 });
+
+app.get("/Starwars/films", (req, res) => {
+  dao.call(
+    "findAll",
+    {},
+    (result) => {
+      if (result !== undefined) {
+        res.send(result);
+      } else {
+        res.statusCode = 404;
+        res.end();
+      }
+    },
+    "films"
+  );
+});
+app.get("/Starwars/planets", (req, res) => {
+  dao.call(
+    "findAll",
+    {},
+    (result) => {
+      if (result !== undefined) {
+        res.send(result);
+      } else {
+        res.statusCode = 404;
+        res.end();
+      }
+    },
+    "planets"
+  );
+});
+app.get("/Starwars/characters/:id", (req, res) => {
+  character_id = parseInt(req.params.id);
+  //   console.log(character_id);
+  dao.call(
+    "find",
+    { id: character_id },
+    (result) => {
+      console.log(character_id);
+      console.log(typeof character_id);
+      console.log(result);
+      if (result.result.id !== undefined) {
+        console.log("ID is not unknown");
+        res.send(result);
+      } else {
+        res.statusCode = 404;
+        console.log("404 reached");
+        res.end();
+      }
+    },
+    "characters"
+  );
+});
+
+app.get("/Starwars/films/:id", (req, res) => {
+  film_id = parseInt(req.params.id);
+  //   console.log(character_id);
+  dao.call(
+    "find",
+    { id: film_id },
+    (result) => {
+      console.log(result);
+      if (result.result.id !== undefined) {
+        console.log("ID is not unknown");
+        res.send(result);
+      } else {
+        res.statusCode = 404;
+        console.log("404 reached");
+        res.end();
+      }
+    },
+    "films"
+  );
+});
+
+app.get("/Starwars/planets/:id", (req, res) => {
+  planet_id = parseInt(req.params.id);
+  //   console.log(character_id);
+  dao.call(
+    "find",
+    { id: planet_id },
+    (result) => {
+      console.log(result);
+      if (result.result.id !== undefined) {
+        console.log("ID is not unknown");
+        res.send(result);
+      } else {
+        res.statusCode = 404;
+        console.log("404 reached");
+        res.end();
+      }
+    },
+    "planets"
+  );
+});
+
 // app.get("Starwars/characters/:id" ())
 
 // Server Setup stuff
