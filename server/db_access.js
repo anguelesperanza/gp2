@@ -38,12 +38,12 @@ const characterCollection = "characters";
 // It takes an operation, parameters and a callback function
 // Not too sure what this does though.
 module.exports.call = async function call(operation, parameters, callback) {
-  console.log("Placehold as I don't know what the JS eq to Pass is");
-
   // establishes a connection with the client and the database
   // await keyword forces program to halt until a response has been recvd
   // Don't want to do DB stuff when no DB has been connected too
   await client.connect();
+  // set the database to use
+  const db = client.db(dbName);
 
   // goes into the database and gets the collection with the chrct details
   // then assins it to a new variable called collections
@@ -74,6 +74,9 @@ module.exports.call = async function call(operation, parameters, callback) {
       // earlir in the code
       const characters = await collection.find({}).toArray();
 
+      // printing out the characters collection to see if this was received
+      console.log(characters);
+      console.log("Made it to this line");
       // This is a callback function.
       // Essentially, we received the information from the database
       // are are passing it back through to the function that called it

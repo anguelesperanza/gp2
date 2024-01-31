@@ -23,16 +23,16 @@ app.use(express.json());
 // mentioned in the 'callback' in db_access
 // req -> Request | res -> Respose
 // We are sending a request to to the server
-// app.get("/Starwars/characters", async function (req, res) {
-//   dao.findAllCharacters((characters) => {
-//     if (characters) {
-//       res.send(characters);
-//     }
-//   });
-// });
-
-app.get("/Starwars/characters", async function (req, res) {
-  dao.call("findallcharacters");
+// using dao.call to run through the switch statements to get what we're looking for.
+app.get("/Starwars/characters", (req, res) => {
+  dao.call("findAllCharacters", {}, (result) => {
+    if (result !== undefined) {
+      res.send(result);
+    } else {
+      res.statusCode = 404;
+      res.end();
+    }
+  });
 });
 // app.get("Starwars/characters/:id" ())
 
