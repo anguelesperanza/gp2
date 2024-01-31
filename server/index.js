@@ -41,6 +41,7 @@ app.get("/Starwars/characters", (req, res) => {
   );
 });
 
+// This gets all films
 app.get("/Starwars/films", (req, res) => {
   dao.call(
     "findAll",
@@ -56,6 +57,8 @@ app.get("/Starwars/films", (req, res) => {
     "films"
   );
 });
+
+// This gets all planets
 app.get("/Starwars/planets", (req, res) => {
   dao.call(
     "findAll",
@@ -71,6 +74,8 @@ app.get("/Starwars/planets", (req, res) => {
     "planets"
   );
 });
+
+// This gets one specific character by passing the character id
 app.get("/Starwars/characters/:id", (req, res) => {
   character_id = parseInt(req.params.id);
   //   console.log(character_id);
@@ -94,6 +99,7 @@ app.get("/Starwars/characters/:id", (req, res) => {
   );
 });
 
+// This gets one specific film by passing the film id
 app.get("/Starwars/films/:id", (req, res) => {
   film_id = parseInt(req.params.id);
   //   console.log(character_id);
@@ -115,6 +121,7 @@ app.get("/Starwars/films/:id", (req, res) => {
   );
 });
 
+// This gets a specific planet by poassing the planet ID
 app.get("/Starwars/planets/:id", (req, res) => {
   planet_id = parseInt(req.params.id);
   //   console.log(character_id);
@@ -136,6 +143,39 @@ app.get("/Starwars/planets/:id", (req, res) => {
   );
 });
 
+// gets all characters ids and their film ids
+app.get("/Starwars/films/:id/characters", (req, res) => {
+  dao.call(
+    "findAllCharactersInFilm",
+    { film_id: parseInt(req.params.id) },
+    (result) => {
+      if (result !== undefined) {
+        res.send(result);
+        // res.send(result.results[0]);
+      } else {
+        res.statusCode = 404;
+        res.end();
+      }
+    },
+    "films_characters"
+  );
+});
+
+app.get("/Starwars/films_planets", (req, res) => {
+  dao.call(
+    "findAll",
+    {},
+    (result) => {
+      if (result !== undefined) {
+        res.send(result);
+      } else {
+        res.statusCode = 404;
+        res.end();
+      }
+    },
+    "films_planets"
+  );
+});
 // app.get("Starwars/characters/:id" ())
 
 // Server Setup stuff
