@@ -147,7 +147,7 @@ module.exports.findFilmsByPlanet = async function (id, callback) {
       callback(null, films);
     } else {
       callback("Failed to find character", undefined);
-    }
+    }+
   });
 };
 
